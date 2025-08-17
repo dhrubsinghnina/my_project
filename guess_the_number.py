@@ -1,16 +1,17 @@
 import random
 x=random.randint(1,101)
 n=-1
-guesses=0
+guessee=1
 while(n!=x):
-    guesses+=1
     n=int(input("Guess the number :"))
-    if(n<x):
-        print(f"guess higher than {n} :")
+    if(x>n):
+        print(f"please guess higher than {n}:")
+        guessee+=1
     else:
-        print(f"guess lower than {n} :")
+        print(f"please guess lower than {n}:")
+        guessee+=1
 else:
-    print(f"You correct number this time :{x}")
+    print(f"You guess the correct number this timme : {x}")
 
-print(f"The number of guesses you tooked : {guesses}")
+print(f"Number of gusses needed :{guessee}")
         
