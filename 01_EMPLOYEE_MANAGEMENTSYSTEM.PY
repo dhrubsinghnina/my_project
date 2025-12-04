@@ -45,7 +45,7 @@ def display_employee(employees):
         
 def displayall(employees):
     for i in employees:
-        print(employees[i])
+        print(f"{i} : {employees[i]}") 
     
     
 i=int(input("Enter 0 to start :"))

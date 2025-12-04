@@ -26,14 +26,16 @@ def processCommand(c):
         webbrowser.open("https://www.hotstar.com/in/home")
     elif "open mangaclash" in c.lower():
         webbrowser.open("https://wwww.toonclash.com")
+        
     else:
         speak_fast("Mujhe iski anumati nahi hai ")
         
 if __name__=="__main__":
     speak("Initializing Jarvis .......")
     while True:
+        
         r = sr.Recognizer()
-
+        
         try:
             # listen for the wake word Jarvis:
             with sr.Microphone() as source:
@@ -49,7 +51,7 @@ if __name__=="__main__":
                     r.adjust_for_ambient_noise(source, duration=0.5)
                     audio=r.listen(source,timeout=5,phrase_time_limit=4)
                 command=r.recognize_google(audio)
-                print(command)  
+                print(command) 
                 processCommand(command)
                     
         except Exception as e:
