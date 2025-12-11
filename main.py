@@ -1,66 +1,59 @@
-accounts={
-    101:{"Name":"Ram","Balance":10000}
-}
-# ADDING ACCOUNT:
-def addaccount():
-    accno=int(input("Enter accno :"))
-    name=str(input("Enter name :"))
-    amount=int(input("Enter amount :"))
-    if accno in accounts:
-        print("Account is exist already!")
-    else:
-        accounts[accno]={"Name":name,"Balance":amount}
-        
-# DELETEING ACCOUNT: 
-def deleteacount():
-    accno=int(input("Enter accno :"))
-    if accno not in accounts:
-        print("The account is not exist :")        
-    else:
-        accounts.pop(accno)
-        
-def updating():
-    accno=int(input("Enter accno:"))
-    amount=int(input("Enter amount:"))
-    type=int(input("Enter 1 for deposit and -1 for credit :"))
-    if type==1:
-        accounts[accno]["Balance"]+=amount
-    if type==-1 :
-        if(accounts[accno]["Balance"]>=amount):
-            accounts[accno]["Balance"]-=amount
-        else:
-            print(f"Balance is low :{accounts[accno]["Balance"]}<{amount}")
-   
-def save(accounts):
-    with open("bank.txt",'w') as f:
-        f.write(f"{str(accounts)}")
-        print("\n")
-   
-def display(accounts):
-    for i in accounts:
-        print(f"{i} : {accounts[i]}")    
+import speech_recognition as sr
+import pyttsx3
+import win32com.client as wincl
+import webbrowser
 
-c=int(input("Enter 0 to start :"))           
-while(c!=-1):
-    c=int(input("""Enter 1 to add account :
-        Enter 2 to to delete :
-        Enter 3 to update :
-        Enter 4 to display :
-        Enter -1 to stop :"""))
-    if c==1:
-        addaccount()
-    elif c==2:
-        deleteacount()
-    elif c==3:
-        updating()
-    elif c==4:
-        display(accounts)
-    save(accounts)
+speaker = wincl.Dispatch("SAPI.SpVoice")
+speaker.Rate=1
+def speak_fast(text):
+    speaker.Speak(text)
+
+engine = pyttsx3.init()
+def speak(text):
+    engine.say(text)
+    engine.runAndWait()
     
-    
+def processCommand(c):
+    if "open google" in c.lower():
+        webbrowser.open("https://google.com")
+    elif "open github" in c.lower():
+        webbrowser.open("https://github.com")
+    elif "open youtube" in c.lower():
+        webbrowser.open("https://www.youtube.com")
+    elif "open chess" in c.lower():
+        webbrowser.open("https://www.chess.com/play")
+    elif "open hotstar" in c.lower():
+        webbrowser.open("https://www.hotstar.com/in/home")
+    elif "open mangaclash" in c.lower():
+        webbrowser.open("https://wwww.toonclash.com")
         
+    else:
+        speak_fast("Mujhe iski anumati nahi hai ")
         
-    
-    
-    
-    
+if __name__=="__main__":
+    speak("Initializing Jarvis .......")
+    while True:
+        
+        r = sr.Recognizer()
+        
+        try:
+            # listen for the wake word Jarvis:
+            with sr.Microphone() as source:
+                print("Listening.....")
+                r.adjust_for_ambient_noise(source, duration=0.5)
+                audio = r.listen(source,timeout=2, phrase_time_limit=1)
+            word = r.recognize_google(audio)
+            print(word)
+            if "jarvis" in word.lower():
+                speak_fast("Yessir how can i help you")
+                # listen for command
+                with sr.Microphone() as source:
+                    r.adjust_for_ambient_noise(source, duration=0.5)
+                    audio=r.listen(source,timeout=5,phrase_time_limit=4)
+                command=r.recognize_google(audio)
+                print(command) 
+                processCommand(command)
+                    
+        except Exception as e:
+            print("error; {0}".format(e))
+      
