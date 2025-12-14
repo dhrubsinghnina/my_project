@@ -2,6 +2,7 @@ import speech_recognition as sr
 import pyttsx3
 import win32com.client as wincl
 import webbrowser
+import musiclibrary
 
 speaker = wincl.Dispatch("SAPI.SpVoice")
 speaker.Rate=1
@@ -26,7 +27,11 @@ def processCommand(c):
         webbrowser.open("https://www.hotstar.com/in/home")
     elif "open mangaclash" in c.lower():
         webbrowser.open("https://wwww.toonclash.com")
-        
+    elif "play" in c.lower():
+        song=c.lower().split(" ")[1]
+        link=musiclibrary.music[song]
+        webbrowser.open(link)
+    
     else:
         speak_fast("Mujhe iski anumati nahi hai ")
         
