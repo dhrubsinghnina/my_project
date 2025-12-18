@@ -45,7 +45,7 @@ if __name__=="__main__":
             # listen for the wake word Jarvis:
             with sr.Microphone() as source:
                 print("Listening.....")
-                r.adjust_for_ambient_noise(source, duration=0.5)
+                r.adjust_for_ambient_noise(source, duration=1)
                 audio = r.listen(source,timeout=2, phrase_time_limit=1)
             word = r.recognize_google(audio)
             print(word)
@@ -53,7 +53,7 @@ if __name__=="__main__":
                 speak_fast("Yessir how can i help you")
                 # listen for command
                 with sr.Microphone() as source:
-                    r.adjust_for_ambient_noise(source, duration=0.5)
+                    r.adjust_for_ambient_noise(source, duration=1)
                     audio=r.listen(source,timeout=5,phrase_time_limit=4)
                 command=r.recognize_google(audio)
                 print(command) 
